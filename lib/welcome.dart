@@ -191,6 +191,7 @@ class _WelcomePageState extends State<WelcomePage> {
             icon: Icon(Icons.arrow_upward),
             label: 'TrendNxt',
           ),
+          
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_bag),
             label: 'Bag',
