@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'login.dart'; // Import your login.dart file
 
 void main() {
   runApp(MaterialApp(
@@ -49,7 +50,6 @@ class _WelcomePageState extends State<WelcomePage> {
     'assets/lipcat.webp',
     'assets/moistcat.jpg',
     'assets/shirtcat.jpg',
-    'assets/shirtcatm.jpg',
     'assets/shirtcatm.jpg',
     'assets/tshirtcatw.jpg',
     'assets/watchcat.jpg',
@@ -111,7 +111,12 @@ class _WelcomePageState extends State<WelcomePage> {
             icon: Icon(Icons.favorite, color: Colors.black),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
+              );
+            },
             icon: Icon(Icons.account_circle, color: Colors.black),
           ),
         ],
@@ -277,39 +282,41 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
-  Widget _buildSquareButton(String label, String imagePath) {
-    return GestureDetector(
-      onTap: () {
-        // Handle button tap
-      },
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: Image.asset(
-              imagePath,
-              width: 50.0,
-              height: 50.0,
+    Widget _buildSquareButton(String text, String imagePath) {
+    return Column(
+      children: [
+        Container(
+          width: 70.0, // Set the width of the square button
+          height: 70.0, // Set the height of the square button
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(imagePath),
               fit: BoxFit.cover,
             ),
+            borderRadius: BorderRadius.circular(8.0), // Rounded corners
+            border: Border.all(color: Colors.black), // Border color
           ),
-          SizedBox(height: 4.0),
-          Text(label, style: TextStyle(fontSize: 12.0)),
-        ],
-      ),
+        ),
+        SizedBox(height: 8.0), // Space between image and text
+        Text(text, style: TextStyle(color: Colors.black)), // Button text
+      ],
     );
   }
 
+
   Widget _buildImageCarousel() {
     return Container(
-      height: 200.0,
+      height: 230.0,
       child: PageView.builder(
         controller: _pageController,
         itemCount: _images.length,
         itemBuilder: (context, index) {
-          return Image.asset(
-            _images[index],
-            fit: BoxFit.cover,
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: Image.asset(
+              _images[index],
+              fit: BoxFit.cover,
+            ),
           );
         },
       ),
@@ -320,14 +327,17 @@ class _WelcomePageState extends State<WelcomePage> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: _additionalImages.map((image) {
-          return Container(
-            margin: EdgeInsets.only(right: 10.0),
-            child: Image.asset(
-              image,
-              width: 180.0,
-              height: 250.0,
-              fit: BoxFit.cover,
+        children: _additionalImages.map((imagePath) {
+          return Padding(
+            padding: EdgeInsets.only(right: 10.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.asset(
+                imagePath,
+                width: 180.0,
+                height: 250.0,
+                fit: BoxFit.cover,
+              ),
             ),
           );
         }).toList(),
@@ -336,22 +346,23 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   Widget _buildRowSliderImages() {
-    return Container(
-      height: 80.0,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: _rowSliderImages.length,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.only(right: 10.0),
-            child: Image.asset(
-              _rowSliderImages[index],
-              width: 80.0,
-              height: 180.0,
-              fit: BoxFit.cover,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: _rowSliderImages.map((image) {
+          return Padding(
+            padding: EdgeInsets.only(right: 10.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.asset(
+                image,
+                width: 110.0,
+                height: 110.0,
+                fit: BoxFit.cover,
+              ),
             ),
           );
-        },
+        }).toList(),
       ),
     );
   }
@@ -360,54 +371,51 @@ class _WelcomePageState extends State<WelcomePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-    
-        SizedBox(height: 1.0),
-        Row(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: _under199ImagesTopRow.map((image) {
-                    return Container(
-                      margin: EdgeInsets.only(right: 10.0),
-                      child: Image.asset(
-                        image,
-                        width: 130.0,
-                        height: 160.0,
-                        fit: BoxFit.cover,
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-          ],
-        ),
+        _buildUnder199Row(_under199ImagesTopRow),
         SizedBox(height: 10.0),
-        Row(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: _under199ImagesBottomRow.map((image) {
-                    return Container(
-                      margin: EdgeInsets.only(right: 10.0),
-                      child: Image.asset(
-                        image,
-                        width: 130.0,
-                        height: 160.0,
-                        fit: BoxFit.cover,
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-          ],
-        ),
+        _buildUnder199Row(_under199ImagesBottomRow),
       ],
+    );
+  }
+
+  Widget _buildUnder199Row(List<String> images) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: images.map((image) {
+          return Padding(
+            padding: EdgeInsets.only(right: 10.0),
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image.asset(
+                    image,
+                    width: 140.0,
+                    height: 200.0,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    color: Colors.black,
+                    padding: EdgeInsets.symmetric(vertical: 6.0),
+                    child: Center(
+                      child: Text(
+                        'Under 199/-',
+                        style: TextStyle(color: Colors.white, fontSize: 16.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 }
