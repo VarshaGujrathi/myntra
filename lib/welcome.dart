@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'login.dart'; // Import your login.dart file
+import 'login.dart'; 
+import 'scroll.dart';// Import your login.dart file
 
 void main() {
   runApp(MaterialApp(
@@ -201,32 +202,36 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
-  Widget _buildDropdownButton(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        // Handle dropdown button tap
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-        decoration: BoxDecoration(
-          color: Color.fromARGB(255, 238, 230, 219),
-          border: Border.all(color: Color.fromARGB(255, 235, 204, 171), width: 2.0),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Myntra',
-              style: TextStyle(color: Colors.black, fontSize: 16.0),
-            ),
-            SizedBox(width: 8.0),
-            Icon(Icons.arrow_drop_down, color: Colors.black),
-          ],
-        ),
+ Widget _buildDropdownButton(BuildContext context) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ScrollPage()),
+      );
+    },
+    child: Container(
+      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 238, 230, 219),
+        border: Border.all(color: Color.fromARGB(255, 235, 204, 171), width: 2.0),
+        borderRadius: BorderRadius.circular(8.0),
       ),
-    );
-  }
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Myntra',
+            style: TextStyle(color: Colors.black, fontSize: 16.0),
+          ),
+          SizedBox(width: 8.0),
+          Icon(Icons.arrow_drop_down, color: Colors.black),
+        ],
+      ),
+    ),
+  );
+}
+
 
   Widget _buildSearchBar() {
     return Container(
@@ -307,7 +312,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
   Widget _buildImageCarousel() {
     return Container(
-      height: 230.0,
+      height: 200.0,
       child: PageView.builder(
         controller: _pageController,
         itemCount: _images.length,
@@ -357,8 +362,8 @@ class _WelcomePageState extends State<WelcomePage> {
               borderRadius: BorderRadius.circular(8.0),
               child: Image.asset(
                 image,
-                width: 110.0,
-                height: 110.0,
+                width: 100.0,
+                height: 100.0,
                 fit: BoxFit.cover,
               ),
             ),
@@ -406,7 +411,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     padding: EdgeInsets.symmetric(vertical: 6.0),
                     child: Center(
                       child: Text(
-                        'Under 199/-',
+                        'Under 599/-',
                         style: TextStyle(color: Colors.white, fontSize: 16.0),
                       ),
                     ),
