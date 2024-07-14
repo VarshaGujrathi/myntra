@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'login.dart'; 
-import 'scroll.dart';// Import your login.dart file
+import 'login.dart';
+import 'scroll.dart';
+import 'bag.dart'; // Import the bag.dart file
 
 void main() {
   runApp(MaterialApp(
@@ -173,6 +174,12 @@ class _WelcomePageState extends State<WelcomePage> {
         onTap: (index) {
           setState(() {
             _selectedIndex = index;
+            if (index == 4) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => BagPage()),
+              );
+            }
           });
         },
         items: [
@@ -192,7 +199,6 @@ class _WelcomePageState extends State<WelcomePage> {
             icon: Icon(Icons.arrow_upward),
             label: 'TrendNxt',
           ),
-          
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_bag),
             label: 'Bag',
@@ -202,36 +208,35 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
- Widget _buildDropdownButton(BuildContext context) {
-  return GestureDetector(
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ScrollPage()),
-      );
-    },
-    child: Container(
-      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-      decoration: BoxDecoration(
-        color: Color.fromARGB(255, 238, 230, 219),
-        border: Border.all(color: Color.fromARGB(255, 235, 204, 171), width: 2.0),
-        borderRadius: BorderRadius.circular(8.0),
+  Widget _buildDropdownButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ScrollPage()),
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 238, 230, 219),
+          border: Border.all(color: Color.fromARGB(255, 235, 204, 171), width: 2.0),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Myntra',
+              style: TextStyle(color: Colors.black, fontSize: 16.0),
+            ),
+            SizedBox(width: 8.0),
+            Icon(Icons.arrow_drop_down, color: Colors.black),
+          ],
+        ),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Myntra',
-            style: TextStyle(color: Colors.black, fontSize: 16.0),
-          ),
-          SizedBox(width: 8.0),
-          Icon(Icons.arrow_drop_down, color: Colors.black),
-        ],
-      ),
-    ),
-  );
-}
-
+    );
+  }
 
   Widget _buildSearchBar() {
     return Container(
@@ -288,27 +293,26 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
-    Widget _buildSquareButton(String text, String imagePath) {
+  Widget _buildSquareButton(String text, String imagePath) {
     return Column(
       children: [
         Container(
-          width: 70.0, // Set the width of the square button
-          height: 70.0, // Set the height of the square button
+          width: 70.0,
+          height: 70.0,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(imagePath),
               fit: BoxFit.cover,
             ),
-            borderRadius: BorderRadius.circular(8.0), // Rounded corners
-            border: Border.all(color: Colors.black), // Border color
+            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(color: Colors.black),
           ),
         ),
-        SizedBox(height: 8.0), // Space between image and text
-        Text(text, style: TextStyle(color: Colors.black)), // Button text
+        SizedBox(height: 8.0),
+        Text(text, style: TextStyle(color: Colors.black)),
       ],
     );
   }
-
 
   Widget _buildImageCarousel() {
     return Container(
@@ -316,20 +320,17 @@ class _WelcomePageState extends State<WelcomePage> {
       child: PageView.builder(
         controller: _pageController,
         itemCount: _images.length,
-        itemBuilder: (context, index) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: Image.asset(
-              _images[index],
-              fit: BoxFit.cover,
-            ),
+        itemBuilder: (BuildContext context, int index) {
+          return Image.asset(
+            _images[index],
+            fit: BoxFit.cover,
           );
         },
       ),
     );
   }
 
-  Widget _buildAdditionalImagesRow() {
+   Widget _buildAdditionalImagesRow() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -372,7 +373,6 @@ class _WelcomePageState extends State<WelcomePage> {
       ),
     );
   }
-
   Widget _buildUnder199Images() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -383,7 +383,6 @@ class _WelcomePageState extends State<WelcomePage> {
       ],
     );
   }
-
   Widget _buildUnder199Row(List<String> images) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
